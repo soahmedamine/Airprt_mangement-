@@ -1,32 +1,23 @@
 ﻿using AM.ApplicationCore.Domain;
 using AM.ApplicationCore.interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AM.ApplicationCore.services
 {
-    public class FlightMethods 
+    public class FlightMethods : IFlightMethods
     {
         public List<Flight> Flights { get; set; }
 
         public FlightMethods(List<Flight> flights)
         {
-            Flights = flights;
+            Flights = flights ?? new List<Flight>(); // Ensure initialization
         }
 
         // GetFlightDates method as required
         public List<DateTime> GetFlightDates(string destination)
         {
-            List<DateTime> flightDates = new List<DateTime>();
-            foreach (var flight in Flights)
-            {
-                if (flight.Destination.Equals(destination, StringComparison.OrdinalIgnoreCase))
-                {
-                    flightDates.Add(flight.FlightDate);
-                }
-            }
-            return flightDates;
+            return Flights.Where(f => f.Destination.Equals(destination, StringComparison.OrdinalIgnoreCase))
+                          .Select(f => f.FlightDate)
+                          .ToList();
         }
 
         // GetFlights method based on filter type and filter value
@@ -74,23 +65,20 @@ namespace AM.ApplicationCore.services
         }
 
         // SeniorTravellers - retrieves a list of senior travellers (age > 65)
-        public List<Traveller> SeniorTravellers(Flight flight)
+        public List<Passenger> SeniorTravellers(Flight flight)
         {
-            if (flight.Passenger == null)
+            if (flight.Passenger == null || !flight.Passenger.Any())
             {
-                throw new ArgumentNullException(nameof(flight.Passenger), "Passenger collection cannot be null.");
+                throw new ArgumentNullException(nameof(flight.Passenger), "Passenger collection cannot be null or empty.");
             }
-            return flight.Passenger.OfType<Traveller>().Where(t => (DateTime.Now.Year - t.BirthDate.Year) > 65).ToList();
+            return flight.Passenger.OfType<Traveller>().Where(t => (DateTime.Now.Year - t.BirthDate.Year) > 65).Cast<Passenger>().ToList();
         }
 
-
+        // DestinationGroupedFlights - groups flights by destination
         public Dictionary<string, List<Flight>> DestinationGroupedFlights()
         {
-            var groupedFlights = Flights.GroupBy(f => f.Destination)
-                                        .ToDictionary(g => g.Key, g => g.ToList());
-            return groupedFlights;
+            return Flights.GroupBy(f => f.Destination)
+                          .ToDictionary(g => g.Key, g => g.ToList());
         }
-
-       
     }
 }

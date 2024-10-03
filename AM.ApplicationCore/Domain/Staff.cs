@@ -1,28 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AM.ApplicationCore.Domain
+﻿namespace AM.ApplicationCore.Domain
 {
     public class Staff : Passenger
     {
-        internal string EmailAddress;
-
         public DateTime EmployementDate { get; set; }
-        public string Function { get; set; }
+        public string Function { get; set; } = string.Empty;
         public float Salary { get; set; }
+
         public override string? ToString()
         {
-            return "Firstname : " + FirstName + ", Lastame : "
-                   + LastName + "Passport Number : " + PassportNumber+", Function : "
-                   +Function+", Empoyement Date : "+EmployementDate;
+            return "Firstname : " + FirstName + ", Lastame : " + LastName + " Passport Number : " + PassportNumber + ", Function : " + Function + ", Employement Date : " + EmployementDate;
         }
 
-        public override void PassgerType()
+        public override void PassengerType() // Fix typo
         {
-            base.PassgerType();
+            base.PassengerType(); // Correct base method call
             Console.WriteLine("Staff");
         }
     }
