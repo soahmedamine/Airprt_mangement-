@@ -36,7 +36,11 @@ namespace AM.ApplicationCore.Domain
 
         }
 
-
+        public virtual void PassgerType
+            ()
+        {
+            Console.WriteLine("Passenger");
+        }
 
     }
 }

@@ -17,5 +17,10 @@ namespace AM.ApplicationCore.Domain
                    + LastName + "Health Information : " + HealthInformation + ", Nationality : " + Nationality;
         }
 
+        public override void PassgerType()
+        {
+            base.PassgerType();
+            Console.WriteLine("Traveller");
+        }
     }
 }

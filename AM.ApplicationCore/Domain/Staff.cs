@@ -8,6 +8,8 @@ namespace AM.ApplicationCore.Domain
 {
     public class Staff : Passenger
     {
+        internal string EmailAddress;
+
         public DateTime EmployementDate { get; set; }
         public string Function { get; set; }
         public float Salary { get; set; }
@@ -18,6 +20,10 @@ namespace AM.ApplicationCore.Domain
                    +Function+", Empoyement Date : "+EmployementDate;
         }
 
-
+        public override void PassgerType()
+        {
+            base.PassgerType();
+            Console.WriteLine("Staff");
+        }
     }
 }

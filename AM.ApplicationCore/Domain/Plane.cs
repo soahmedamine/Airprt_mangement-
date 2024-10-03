@@ -13,6 +13,8 @@ namespace AM.ApplicationCore.Domain
     }
     public class Plane
     {
+        internal PlaneType PlaneType;
+
         //the public references the getters and setters and the variable is always private
         public int PlaneId { get; set; }
         public int Capacity { get; set; }
